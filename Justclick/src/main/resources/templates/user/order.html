@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Order Checkout</title>
+    <link rel="stylesheet" href="/base.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        .card {
+            border-radius: 15px;
+        }
+        .form-check-label {
+            white-space: normal;
+        }
+        .section-title {
+            font-weight: 600;
+            color: #0d6efd;
+        }
+        .order-summary td {
+            padding: 8px 0;
+        }
+        .btn-block {
+            width: 100%;
+        }
+    </style>
+</head>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const paymentSelect = document.getElementById('paymentType');
+        const submitBtn = document.getElementById('checkoutButton');
+
+        function updateButtonText() {
+            const paymentValue = paymentSelect.value;
+            if (paymentValue === 'cod') {
+                submitBtn.textContent = 'Place your Order';
+            } else {
+                submitBtn.textContent = 'Proceed to Payment';
+            }
+        }
+
+        paymentSelect.addEventListener('change', updateButtonText);
+        updateButtonText(); // Run once on page load
+    });
+</script>
+
+<body>
+<div th:replace="~{base::Layout(~{::section})}">
+
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5 section-title">Checkout</h2>
+
+            <form th:action="@{/user/order}" method="post" th:object="${urds}">
+                <div class="row g-4">
+
+                    <!-- Delivery Address -->
+                    <div class="col-lg-6">
+                        <div class="card shadow-sm p-4">
+                            <h4 class="text-center mb-3">Delivery Address</h4>
+                            <div class="form-group">
+                                <label class="mb-2">Select Address</label>
+                                <div th:each="ud : ${udrs}" class="form-check mb-2">
+                                    <input class="form-check-input" type="radio"
+                                           th:id="'address-' + ${ud.id}"
+                                           th:name="selectedAddress"
+                                           th:value="${ud.id}" required />
+                                    <label class="form-check-label" th:for="'address-' + ${ud.id}" th:text="${ud.address}"></label>
+                                </div>
+								<a class="pull-right"style="text-decoration : none" href="/user/address">Enter Another Address</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment & Summary -->
+                    <div class="col-lg-6">
+                        <div class="card shadow-sm p-4">
+                            <h4 class="text-center mb-3">Payment Details</h4>
+							<div class="mb-4">
+								
+								
+								<div class="mb-4">
+								    <label for="couponCode" class="form-label fs-5 fw-semibold">
+								        <i class="bi bi-ticket-perforated-fill me-2"></i>Extra Happiness!
+								    </label>
+								    <div class="row g-2 align-items-center">
+								        <div class="col-md-8">
+								            <select class="form-select form-select-lg" id="couponCode" name="couponCode">
+								                <option value="">-- Select a Coupon Code --</option>
+								                <option th:each="cp : ${allcup}"
+								                        th:value="${cp.code}"
+								                        th:text="${cp.code}">
+								                </option>
+								            </select>
+								        </div>
+								        <div class="col-md-4">
+								            <button class="btn btn-success w-100" type="submit" 
+								                    formaction="/user/apply-coupon" formmethod="post">
+								                Apply Coupon
+								            </button>
+								        </div>
+								    </div>
+								</div>
+
+							    <small class="text-success" th:if="${couponSuccess}" th:text="${couponSuccess}"></small>
+							    <small class="text-danger" th:if="${couponError}" th:text="${couponError}"></small>
+							</div>
+
+							
+                            <table class="table order-summary">
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Total Price:</strong></td>
+                                        <td>[[${totalOrderPrice}]]</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Delivery Price:</strong></td>
+                                        <td>30</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Tax:</strong></td>
+                                        <td>100</td>
+                                    </tr>
+                                    <tr class="border-top">
+                                        <td><strong>Final Total:</strong></td>
+                                        <td class="fw-bold">[[${finalp}]]</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="form-group mt-3">
+                                <label for="paymentType">Select Payment Type</label>
+                                <select id="paymentType" class="form-control" name="paymentType" required>
+					
+                                    <option value="cod">Cash on Delivery</option>
+                                    <option value="card">Credit/Debit Card</option>
+									<option>UPI</option>
+									
+                                </select>
+                            </div>
+
+                            <div class="mt-4">
+								
+							
+								<button type="submit" id="checkoutButton" class="btn btn-primary btn-block">
+								    Proceed to Payment
+								</button>
+
+
+                               
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </section>
+
+
+
+</div>
+</body>
+</html>

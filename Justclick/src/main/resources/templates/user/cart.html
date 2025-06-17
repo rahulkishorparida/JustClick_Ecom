@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Cart</title>
+    <link rel="stylesheet" href="/base.css">
+</head>
+<body>
+    <div th:replace="base::Layout(~{::section})">
+        <section>
+            <div class="container">
+                <h2>Product List</h2>
+				<div th:if="${errorMsg}" class="alert alert-danger">
+						<p th:text="${errorMsg}"></p>
+					</div>
+					
+					<th:block th:if="${#lists.isEmpty(carts)}">
+					    <div class="alert alert-info">
+					        <h4>Your cart is empty.</h4>
+					    </div>
+						<h4 style="text-align: center;"><a href="/">Add Product</a></h4>
+					</th:block>
+									
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="cl">
+                            <th>count</th>
+							<th>Id</th>
+                            <th>Photo</th>
+                            <th>Product Name</th>
+                            <th>Price</th>
+							<th>Quantity</th>
+                            <th>Total Price</th>
+							<th>Total Amount</th>
+						  
+                        </tr>
+                    </thead>
+                    <tbody>
+						<tr th:each="cart, c : ${carts}">
+						    <td th:text="${c.count}"></td> <!-- OK: iteration count -->
+						    <td th:text="${cart.id}"></td>
+						    <td>
+						        <img th:src="@{'/uploads/product_img/' + ${cart.product.photo}}" />
+						    </td>
+						    <td th:text="${cart.product.name}"></td>
+						    <td th:text="${cart.product.discountprice}"></td>
+							
+							<td class="text-center">
+							    <a th:href="@{'/user/cartQuantityUpdate?sy=de&cid='+${cart.id}}" 
+								class="btn btn-sm btn-outline-secondary">
+							        <i class="fa-solid fa-minus"></i>
+							    </a>
+								
+							    <span th:text="${cart.quantity}" class="mx-2"></span>
+								
+							    <a th:href="@{'/user/cartQuantityUpdate?sy=in&cid='+${cart.id}}"
+								 class="btn btn-sm btn-outline-secondary">
+							        <i class="fa-solid fa-plus"></i>
+							    </a>
+							</td>
+
+						    <td th:text="${cart.totalPrice}"></td>
+						</tr>
+						<tr>
+						    <td colspan="7"><b>Total Price</b></td>
+						    <td>[[${totalOrderPrice}]]</td>
+						</tr>
+
+						<tr>
+							<th:block th:if="${#lists.isEmpty(carts)}">
+							    <td colspan="7" class="text-end">
+							        <button class="btn btn-primary" disabled>Order Now</button>
+							    </td>    
+							</th:block>
+
+							<th:block th:unless="${#lists.isEmpty(carts)}">
+							    <td colspan="7" class="text-end">
+							        <a class="btn btn-primary" th:href="@{'/user/order/' + ${usern.id}}">Order Now</a>
+							    </td>    
+							</th:block>
+
+						</tr>
+
+                    </tbody>
+                </table>
+				
+            </div>
+        </section>
+    </div>
+</body>
+</html>

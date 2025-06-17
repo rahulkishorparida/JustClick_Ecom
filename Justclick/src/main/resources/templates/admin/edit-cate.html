@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Edit Category</title>
+    <link rel="stylesheet" href="/base.css">
+</head>
+<body>
+<div th:replace="base::Layout(~{::section})">
+<section>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4>Edit Category</h4> <!-- Title changed -->
+        </div>
+        <div class="panel-body">
+
+            <div th:if="${successMsg}" class="alert alert-success">
+                <p th:text="${successMsg}"></p>
+            </div>
+            <div th:if="${errorMsg}" class="alert alert-danger">
+                <p th:text="${errorMsg}"></p>
+            </div>
+
+            <form th:action="@{/admin/edit-cate}" method="post" th:object="${catee}" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>No:</label>
+                    <input type="text" class="form-control" th:field="*{id}" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Name:</label>
+                    <input type="text" class="form-control" th:field="*{name}" placeholder="Category Name">
+                </div>
+
+                <div class="form-group">
+                    <label>Photo:</label>
+                    <input type="file" class="form-control" name="file">
+                    <div th:if="${catee.photo}">
+                        <img th:src="@{'/uploads/category_img/' + ${catee.photo}}" alt="Current Photo" style="width:100px; margin-top:10px;">
+                    </div>
+                </div>
+
+                <!-- Radio Buttons for Active Status -->
+                <div class="form-group">
+                    <label>Status:</label><br>
+                    <label class="radio-inline">
+                        <input type="radio" th:field="*{isActive}" value="true"> Active
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" th:field="*{isActive}" value="false"> Inactive
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Update</button> <!-- Changed 'Add' to 'Update' -->
+            </form>
+
+        </div>
+    </div>
+</section>
+</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<div th:replace="base::Layout(~{::section})">
+	
+	
+
+
+<section id="s2">
+    <link rel="stylesheet" href="login.css">
+	
+    <div class="container"><br>
+        <div class="row">
+            <div class="col-sm-7">
+                <img src="logo.png" class="img-circle" width="100%" height="450px" alt="Logo">
+            </div>
+
+            <div class="col-sm-5"><br>
+                <div class="login-form">
+                    <form action="/reset_pas" method="post">
+                        <div class="login-head">
+                            <center><h3><i>Reset Password</i></h3></center>
+							<div th:if="${errorMsg}" class=" alert-danger text-center">
+									<p th:text="${errorMsg}"></p>
+							</div>
+								<div th:if="${successMsg}" class=" alert-success text-center">
+									<p th:text="${successMsg}"></p>
+							</div>
+						
+                        </div>
+						<div class="loin-body">
+							<div class="form-group">
+							     <label>New Password</label>
+					             <input type="password" class="form-control" name="password" required>
+				             </div>	
+							 <div class="form-group"> 
+							      <label>Confirm Password</label>
+					             <input type="password" class="form-control" name="repassword" required>
+				             </div>					
+						</div>
+						<input type="hidden" th:value="${token}" name="token" >
+
+                        <button type="submit" class="btn btn-primary btn-block">Reset password</button>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+</div>
+</html>

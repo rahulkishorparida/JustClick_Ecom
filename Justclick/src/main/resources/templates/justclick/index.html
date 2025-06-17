@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+	<title>Home</title>
+	<link rel="stylesheet" href="/base.css">
+</head>
+	<body>
+		<div th:replace="base::Layout(~{::section})">
+			<section id="s2">
+			  <div class="container">
+			    <div class="row">
+			      <div class="col-sm-2" th:each="ic : ${indexc}">
+			        <a th:href="@{'/products?category=' + ${ic.name}}" style="display: block; text-decoration: none; color: inherit;">
+			          <div class="mobile text-center">
+			            <img th:src="@{'/uploads/category_img/' + ${ic.photo}}" th:alt="${ic.name}" style="max-width: 100%; height: auto;" />
+			          </div>
+			          <p class="pname text-center" style="margin-top: 8px; font-weight: bold;">
+			            [[${ic.name}]]
+			          </p>
+			        </a>
+			      </div>
+			    </div>
+			  </div>
+			</section>
+
+		</div>	
+	</body>
+
+
+
+</html>
+	

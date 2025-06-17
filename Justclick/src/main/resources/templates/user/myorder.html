@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title> My order</title>
+    <link rel="stylesheet" href="/base.css">
+  
+</head>
+<body>
+<div th:replace="base::Layout(~{::section})">
+    <section class="container-fluid"><br>
+		<table class="table table-bordered">
+		  <thead>
+		    <tr>
+		      <th>Sl No.</th>
+		      <th>orderId</th>
+			  <th>Photo</th>
+		      <th>Order Amount</th>
+			  <th>Order Date</th>
+		      <th>Order Status</th>
+			  <th>Order Quantity</th>
+			  <th>Payment Type</th>
+			  <th>Action</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr th:each="my,c:${myorder}">
+		      <td th:text="${c.count}"></td>
+			  <td th:text="${my.orderId}"></td>
+			  <td>
+			    <img th:src="@{'/uploads/product_img/' + ${my.product.photo}}" width="80" height="80" />
+			  </td>
+			  <td th:text="${my.finalPrice}"></td>
+			  <td th:text="${my.orderDate}"></td>
+			  <td th:text="${my.status}"></td>
+			  <td th:text="${my.quantity}"></td>
+			  <td th:text="${my.paymentType}"></td>
+			  <td>
+			      <!-- Show Cancel button only if order is not Cancelled or Delivered -->
+			      <th:block th:if="${my.status != 'Cancelled' and my.status != 'Delivered'}">
+			          <a th:href="@{'/user/update-status?id=' + ${my.id} + '&st=6'}" class="btn btn-danger btn-sm">Cancel Order</a>
+			      </th:block>
+
+			      <!-- Show Return button only if order is Delivered -->
+			      <th:block th:if="${my.status == 'Delivered'}">
+					<a th:href="@{'/user/return-order?id=' + ${my.id}}" class="btn btn-warning btn-sm">Return</a>
+
+			      </th:block>
+
+			      <!-- Show Cancelled text if status is Cancelled -->
+			      <th:block th:if="${my.status == 'Cancelled'}">
+			          <span class="text-muted">Cancelled</span>
+			      </th:block>
+			  </td>
+
+
+
+		    </tr>
+		  </tbody>
+		</table>
+
+
+    </section>
+</div>
+</body>
+</html>

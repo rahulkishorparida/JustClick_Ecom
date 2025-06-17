@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>In-Details</title>
+    <link rel="stylesheet" href="in-detail.css">
+    <link rel="stylesheet" href="/base.css">
+</head>
+<body>
+    <div th:replace="base::Layout(~{::section})">
+        <section id="s2">
+            <div class="container bb">
+
+                <!-- Product Details Section -->
+                <center>
+                    <h2><b><i>Product Details</i></b></h2>
+					
+					<!-- Alert Messages -->
+					      <div th:if="${errorMsg}" class="alert alert-danger">
+					          <p th:text="${errorMsg}"></p>	
+					      </div>
+
+						  <div th:if="${successMsg}" class="alert alert-success alert-dismissible" role="alert">
+						      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						      </button>
+						      <p th:text="${successMsg}"></p>
+						  </div>
+
+                </center>
+
+                <div class="row">
+                    <!-- Product Image -->
+                    <div class="col-sm-7 inphoto">
+                        <img th:src="@{'/uploads/product_img/' + ${product.photo}}" width="400">
+                    </div>
+                    <br>
+
+                    <!-- Product Info -->
+                    <div class="col-sm-5">
+                        <h3>[[${product.name}]]</h3>
+                        <h4 class="pcolor"><b>Brand: [[${product.brand}]]</b></h4>
+
+                        <h4 class="pcolor"><b>Description:</b></h4>
+                        <h5>[[${product.des}]]</h5>
+
+                        <h4 class="pcolor"><b>Product Details:</b></h4>
+                        <h5>
+                            Status:
+                            <th:block th:if="${product.quantity > 0}">
+                                <span class="badge" style="background-color: green;">Available</span><br><br>
+                            </th:block>
+                            <th:block th:unless="${product.quantity > 0}">
+                                <span class="badge" style="background-color:red;">Unavailable</span><br><br>
+                            </th:block>
+                            Category: [[${product.category}]] <br><br>
+                            Policy: 7 Days Replacement & Return
+                        </h5>
+
+                        <h4>
+                            <b>Price: &#8377 [[${product.discountprice}]]</b>
+                            <span style="text-decoration: line-through;">[[${product.price}]]</span>
+                            <span style="color: green;">[[${product.discount}]]% off</span>
+                        </h4>
+                        <br>
+
+                        <!-- Icons Row -->
+                        <center>
+                            <div class="col-sm-12 text-danger">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <i class="fa-solid fa-money-bill-1-wave fa-2x"></i><br>COD
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <i class="fa-solid fa-rotate-left fa-2x"></i><br>Easy Return
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <i class="fa-solid fa-truck-fast fa-2x"></i><br>Fast/ Free Delivery
+                                    </div>
+                                </div>
+                            </div>
+                        </center>
+
+                        <!-- Add to Cart Button -->
+                        <th:block th:if="${product.quantity > 0}">
+                            <th:block th:if="${usern == null}">
+								
+                                <a href="/signin" style="width: 450px;" type="submit" class="btn btn-success adtocart">Add to cart</a>
+								
+                            </th:block>
+                            <th:block th:unless="${usern == null}">
+                                <a th:href="@{'/user/adtocate?pid=' + ${product.id} + '&uid=' + ${usern.id}}"
+                                   style="width: 450px;" type="submit" class="btn btn-success adtocart">Add to cart</a>
+                            </th:block>
+                        </th:block>
+                        <th:block th:unless="${product.quantity > 0}">
+                            <a style="width: 450px;" type="submit" class="btn btn-danger adtocart">Unavailable</a>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+	<link rel="stylesheet" href="products.css">
+
+</head>
+<body>
+    <div th:replace="base::Layout(~{::section})">
+        <section id="s2">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6">
+						<form action="search" method="get">
+							<input type="text" method="get" name="ch" placeholder="Search your products..">
+							<button type="submit">Search</button>
+						</form>
+					</div>
+					<div class="col-sm-6">
+						<div class="dropdown">
+						  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
+						    Search by Brand  <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+						    <li th:each="brand : ${allbrands}">
+						      <a class="dropdown-item" th:href="@{'/products?brand=' + ${brand}}">[[${brand}]]</a>
+						    </li>
+						  </ul>
+						</div>
+					</div>
+				</div>
+			</div>
+        </section>
+		<section id="s3">
+		  <div class="container-fluid clr">
+		    <div class="row">
+		      <div class="col-sm-2">
+		        <div class="list-group">
+		          <h3><center>Categoery</center></h3>
+		          <a href="/products" th:classappend="${param == 'brand'}? 'active':''"
+				  class="list-group-item list-group-item-action" aria-current="true">
+		            All
+		          </a>
+		          <a href="#" th:each="c: ${allcate}" th:href="@{'/products?category='+${c.name}}"
+				   th:classappend="${paramValue == c.name}? 'active':''" 
+				   class="list-group-item list-group-item-action">[[${c.name}]]</a>
+
+		        </div>
+		      </div>
+		      <div class="col-sm-10 psection">
+		        <h3><center>Products</center></h3>
+		        <div class="row"
+
+					<th:block th:if="${allpro.size}">
+						
+		          <div class="col-sm-3" th:each="p:${allpro}">
+		           <div class=" thumbnail">
+					<img th:src="@{'/uploads/product_img/' + ${p.photo}}">
+		          <center>
+		            <p><h4 class="pname">[[${p.name}]]</h4></p>
+					<p>
+						<h4>A Product of [[${p.brand}]]</h4>
+						<h5>
+							<span style="text-decoration: line-through;">&#8377;[[${p.price}]]</span>
+							<b><span style="color: green;">[[${p.discount}]]% off</span><br></b>
+							<b><span>&#8377; [[${p.discountprice}]]</span></b>
+						</h5>
+					</p>
+					<a th:href="@{'/in-detail/' + ${p.id}}" class="btn btn-primary bt">In Detail</a>
+
+		          </center>
+
+		           </div>
+
+		          </div>
+		        </div>
+				</th:block>
+					  <th:block th:unless="${allpro.size}">
+						<p class="text-danger text-center fa-2x" >No product Available</p>
+					  </th:block>
+
+
+		      </div>
+		    </div>
+		  </div>
+		</section>
+    </div>    
+</body>
+</html>

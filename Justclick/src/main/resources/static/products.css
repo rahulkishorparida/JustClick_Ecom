@@ -1,0 +1,53 @@
+#s2{
+	margin-top: 20px;
+	text-align: center;
+}
+#s2 input{
+	width: 50%;
+	   padding: 10px;
+	   font-size: 16px;
+	   border: 1px solid #ccc;
+	   border-radius: 5px;
+}
+#s2 button{
+	padding: 10px 20px;
+	    margin-left: 10px;
+	    font-size: 16px;
+	    border: none;
+	    background-color: cornflowerblue;
+	    color: white;
+	    border-radius: 5px;
+	    cursor: pointer;
+}#s2 button:hover{
+	color: yellow;
+}
+#s3 .psection{
+  border: 1px solid gray;
+  margin-top: 30px;
+}
+#s3 .thumbnail{
+  width: 250px;
+  height: 300px;
+
+}
+#s3 .bt{
+  background-color: cornflowerblue;
+  color: white;
+ border-width: 0px;
+ width: 100px;
+ margin-top: 20px;
+
+}
+#s3 button:hover{
+  color: yellow;
+}
+#s3 .psection .pname{
+ margin-top: -10px;
+
+}
+ .list-group.list-group-item-action>.open>a,
+ .list-group.list-group-item-action>.open>a:focus,
+ .list-group.list-group-item-action>.open>a:hover {
+    color: #fff;
+    background-color: cornflowerblue
+}

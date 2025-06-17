@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+	<title>Category</title>
+	<link rel="stylesheet" href="/base.css">
+
+</head>
+<body>
+    
+</body>
+<div th:replace="base::Layout(~{::section})">
+	<section id="s2">
+	  <div class="container">
+	    <div class="row">
+	      <!-- Add Category Form -->
+	      <div class="col-sm-4">
+	        <div class="panel panel-default">
+	          <div class="panel-heading">
+	            <h4>Add Category</h4>
+	          </div>
+	          <div class="panel-body">
+				
+				<div th:if="${successMsg}" class="alert alert-success">
+				    <p th:text="${successMsg}"></p>
+				</div>
+				<div th:if="${errorMsg}" class="alert alert-danger">
+				    <p th:text="${errorMsg}"></p>
+				</div>
+				
+	            <form action="/admin/save-category"  method="post" enctype="multipart/form-data">
+	              <div class="form-group">
+	                <label>Name:</label>
+	                <input type="text" class="form-control" name="name" placeholder="Category Name">
+	              </div>
+	              <div class="form-group">
+	                <label>Photo:</label>
+	                <input type="file" class="form-control" name="file" required>
+	              </div>
+	   		  
+	              <div class="form-group">
+	                <label>Status:</label><br>
+	                <label class="radio-inline">
+	                  <input type="radio" name="isActive" value="true" checked> Active
+	                </label>
+	                <label class="radio-inline">
+	                  <input type="radio" name="isActive" value="false"> Inactive
+	                </label>
+	              </div>
+			
+				  
+	              <button type="submit" class="btn btn-success">Add</button>
+	            </form>
+	          </div>
+	        </div>
+	      </div>
+
+	      <!-- Category List Table -->
+	      <div class="col-sm-8">
+	        <div class="panel panel-default">
+	          <div class="panel-heading">
+	            <h4>Category List</h4>
+	          </div>
+	          <div class="panel-body">
+	            <table class="table table-bordered table-striped">
+	              <thead>
+	                <tr>
+	                  <th>SLNo.</th>
+	                  <th>Category Name</th>
+	                  <th>Photo</th>
+					  <th>Status</th>
+					 
+	                  <th>Function</th>
+	                </tr>
+	              </thead>
+	              <tbody>
+					<tr th:each="cate, c : ${categories}">
+					  <td  th:text="${c.count}"></td>
+					  <td th:text="${cate.name}"></td>
+					  <td>
+					    <img th:src="@{'/uploads/category_img/' + ${cate.photo}}" width="50">
+					  </td>
+					  <td th:text="${cate.isActive}"></td>
+					 
+					  <td>
+						<a class="btn btn-primary" th:href="@{'/admin/edit-cate/' + ${cate.id}}">Edit</a> 
+						  <a class="btn btn-danger" th:href="@{'/admin/delete-cate/' + ${cate.id}}" onclick="return confirm('are you want to delete?')">Delete</a>
+
+					  </td>
+
+					</tr>
+					
+
+
+	              </tbody>
+	            </table>
+	          </div>
+	        </div>
+	      </div>
+
+	    </div>
+	  </div>
+	</section>
+</html>

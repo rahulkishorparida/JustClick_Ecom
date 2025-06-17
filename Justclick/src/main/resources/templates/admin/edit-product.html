@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+	<head>
+		<title>Edit Product</title>
+		<link rel="stylesheet" href="/base.css">
+	</head>
+	<body>
+		<div th:replace="base::Layout(~{::section})">
+	
+				<section id="s2">
+					   <div class="col-sm-8 col-sm-offset-2">
+						<div th:if="${errorMsg}" class="alert alert-danger">
+							<p th:text="${errorMsg}"></p>
+						</div>
+						<div th:if="${successMsg}" class="alert alert-success">
+							<p th:text="${successMsg}"></p>
+							
+						</div>
+						
+					     <form action="/admin/edit-product" method="post" th:object="${editp}" enctype="multipart/form-data">
+							<div class="form-group">
+							                  <label>No:</label>
+							                  <input type="text" class="form-control" th:field="*{id}" readonly>
+							              </div>
+					       <div class="form-group">
+					         <label for="title">Product Title:</label>
+					         <input type="text" id="title" class="form-control"  th:field="*{name}">
+					       </div>
+					 
+					       <div class="form-group">
+					         <label for="description">Enter Description:</label>
+					         <textarea  cols="3" class="form-control" th:field="*{des}"></textarea> 
+					       </div>
+						   
+					       <div class="form-group">
+					         <label for="category">Enter Category Name:</label>
+					         <select id="category" class="form-control" th:field="*{category}">
+								
+								<option th:each="c:${catedrop}" th:value="${c.name}" th:text="${c.name}"
+								        th:selected="${c.name == editp}">
+								</option>
+    
+					         </select>
+					       </div> 
+					       
+					 
+					       <div class="form-group">
+					         <label for="price">Enter Price:</label>
+					         <input type="number" id="price" class="form-control" th:field="*{price}">
+					       </div>
+
+						   <div class="form-group">
+						     <label for="price">Enter Discount:</label>
+						     <input type="number" id="discount" class="form-control" th:field="*{discount}">
+						   </div>
+
+
+						   <div class="form-group">
+						       <label>Status:</label><br>
+						       <label class="radio-inline">
+						           <input type="radio" th:field="*{isActive}" value="true"> Active
+						       </label>
+						       <label class="radio-inline">
+						           <input type="radio" th:field="*{isActive}" value="false"> Inactive
+						       </label>
+						   </div>
+					 
+					       <div class="row">
+					         <div class="col-sm-6">
+					           <div class="form-group">
+					             <label for="stock">Enter Stock Quantity:</label>
+					             <input type="text" id="stock" class="form-control" th:field="*{quantity}" placeholder="e.g., 50">
+					           </div>
+					         </div>
+					 
+					         <div class="col-sm-6">
+					           <div class="form-group">
+					             <label for="brand">Enter Brand Name:</label>
+					             <input type="text" id="brand" class="form-control" th:field="*{brand}" placeholder="e.g., Nike, Apple">
+					           </div>
+					         </div>
+					       </div>
+						   
+						   <div class="form-group">
+						     <label>Photo:</label>
+						     <input type="file" class="form-control" name="file" required>
+							 <div th:if="${editp.photo}">
+								<img th:src="@{'/uploads/product_img/'+ ${editp.photo}}" alt="current photo" style="width: 100px; margin-top: 10px;" >
+								
+							 </div>
+						   </div>	 
+					       <button type="submit" class="btn btn-primary">Submit Product</button>
+					 
+					     </form>
+					   </div>
+					 </section>
+		
+		</div>
+	</body>
+</html>	

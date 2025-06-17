@@ -1,0 +1,22 @@
+
+#s2 .bb .inphoto  img{
+  margin-top: 30px;
+  width: 500px;
+  height: 340px; 
+  margin-left: 30px;
+  border-radius: 50px;
+}
+#s2 .adtocart{
+  width: 500px;
+  margin-top: 10px;
+}
+#s2 .bb{
+	border: 1px solid black;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+	margin-top: 10px;
+	padding-bottom: 30px;
+	width: 1300px;
+}
+#s2 ad{
+	width: 100px;
+}

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+	<meta charset="UTF-8">
+	 <title>User_view</title>
+	  <link rel="stylesheet" href="/base.css">
+	  	
+</head>
+<body>
+	<div th:replace="base::Layout(~{::section})">
+		<section>
+			<div class="container-fluid">
+			  <h3>All Users</h3>
+			  <div class="dropdown">
+				<form method="get" th:action="@{/user}">
+				  <label for="state">Filter by State:</label>
+				  <select name="state" id="state">
+				    <option value="">-- All States --</option>
+				    <option th:each="state : ${states}"
+				            th:value="${state}"
+				            th:text="${state}"
+				            th:selected="${state == selectedState}">
+				    </option>
+				  </select>
+				  <button type="submit">Filter</button>
+				</form>
+			  </div>
+			  <table class="table table-striped table-bordered table-hover">
+			    <thead>
+			      <tr>
+					<th>Count</th>
+			        <th>Id</th>
+			        <th>Name</th>
+			        <th>Number</th>
+			        <th>Email</th>
+			        <th>City</th>
+			        <th>Address</th>
+					<th>State</th>
+					<th>Pincode</th>
+					<th>Password</th>
+					<th>Photo</th>
+					<th>E/D_Status </th>
+					<th>Function</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+					<tr th:each="all,c : ${alluser}">
+					 <td  th:text="${c.count}"></td>	
+					  <td th:text="${all.id}"></td>
+					  <td th:text="${all.name}"></td>
+					  <td th:text="${all.phone}"></td>
+					  <td th:text="${all.email}"></td>
+					  <td th:text="${all.city}"></td>
+					  <td th:text="${all.address}"></td>
+					  <td th:text="${all.state}"></td>
+					  <td th:text="${all.pin}"></td>
+					  <td th:text="${all.password}"></td>
+					  <td>
+					    <img th:src="@{'/uploads/user_img/' + ${all.photo}}" alt="User Photo" width="60" height="60"/>
+					  </td>
+					  <td th:text="${all.isEnable}"></td>
+					  <td>
+					    <div>
+					  
+					      <select class="status-dropdown"
+					              th:attr="data-user-id=${all.id}"
+					              th:value="${all.isEnable}">
+					        <option value="true" th:selected="${all.isEnable == true}">Active</option>
+					        <option value="false" th:selected="${all.isEnable == false}">Inactive</option>
+					      </select>
+					    </div>
+					  </td>
+
+                      
+					</tr>
+			    </tbody>
+			  </table>
+			</div>
+
+		</section>
+	</div>
+
+	<script type="text/javascript">
+	  $(document).ready(function () {
+	    $('.status-dropdown').on('change', function () {
+	      var userId = $(this).data('user-id');
+	      var newStatus = $(this).val();
+
+	      $.ajax({
+	        url: '/admin/user/status',
+	        type: 'POST',
+	        contentType: 'application/json',
+	        data: JSON.stringify({
+	          id: userId,
+	          status: newStatus
+	        }),
+	        success: function (response) {
+	          alert("Status updated successfully!");
+	        },
+	        error: function (xhr, status, error) {
+	          alert("Error updating status: " + xhr.responseText);
+	        }
+	      });
+	    });
+	  });
+	</script>
+
+
+</body>
+	
+</html>

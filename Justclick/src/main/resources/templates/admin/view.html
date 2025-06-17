@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>View</title>
+    <link rel="stylesheet" href="/base.css">
+</head>
+<body>
+    <div th:replace="base::Layout(~{::section})">
+        <section>
+            <div class="container">
+                <h2>Product List</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="cl">
+                            <th>count</th>
+							<th>Id</th>
+                            <th>Product Title</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Price</th>
+							<th>Discount</th>
+							<th>Discount price</th>
+							<th>Status</th>
+                            <th>Stock</th>
+							<th>Brand</th>
+                            <th>Photo</th>
+                            <th style="background-color:red; color: white;">Functions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="product,c : ${products}">
+                            <td th:text="${c.count}"></td>
+							<td th:text="${product.id}"></td>
+                            <td th:text="${product.name}"></td>
+                            <td th:text="${product.des}"></td>
+                            <td th:text="${product.category}"></td>
+                            <td th:text="${product.price}"></td>
+							<td th:text="${product.discount}"></td>
+							<td th:text="${product.discountprice}"></td>
+							<td th:text="${product.isActive}"></td>
+                            <td th:text="${product.quantity}"></td>
+							<td th:text="${product.brand}"></td>
+							
+                            <td>
+                                <img th:src="@{'/uploads/product_img/' + ${product.photo}}" width="60">
+                            </td>
+                            <td>
+                                <a class="btn btn-primary" th:href="@{'/admin/edit-product/' + ${product.id}}">Edit</a>
+                                <a class="btn btn-danger" th:href="@{'/admin/delete-product/' + ${product.id}}"
+                                   onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

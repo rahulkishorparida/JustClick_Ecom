@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Profile</title>
+    <link rel="stylesheet" href="/base.css">
+    <style>
+        .profile-info {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 20px auto;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .profile-info img {
+            display: block;
+            margin: 15px auto;
+            border-radius: 10px;
+        }
+        .profile-info p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        .profile-info strong {
+            display: inline-block;
+            width: 120px;
+        }
+        .change-password-form input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .change-password-form button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .change-password-form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="~{base::Layout(~{::section})}">
+
+<section id="profile">
+  <div class="container">
+    <h2 style="text-align: center;">User Profile</h2>
+	<th:block th:if="${message}">
+	    <p class="alert alert-success text-center">[[${message}]]</p>
+	</th:block>
+
+
+    <div class="profile-info" th:if="${usern != null}">
+		<center>
+			<form th:action="@{/user/upload-photo}"  method="post" enctype="multipart/form-data">
+			  <div style="position: relative; display: inline-block; width: 150px; height: 150px;">
+			    <img th:src="@{'/uploads/user_img/' + ${usern.photo}}" alt="Profile Photo"
+			         style="width: 150px; height: 150px; border-radius: 50%;" />
+
+			    <label for="photoUpload" style="
+			      position: absolute;
+			      bottom: 0;
+			      right: 0;
+			      background-color: #007bff;
+			      color: white;
+			      border-radius: 50%;
+			      width: 30px;
+			      height: 30px;
+			      display: flex;
+			      justify-content: center;
+			      align-items: center;
+			      cursor: pointer;
+			      font-size: 18px;
+			      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+			    ">
+			      <i class="glyphicon glyphicon-plus"></i>
+			    </label>
+
+			    <input type="file" name="photo" id="photoUpload"
+			           style="display: none;" onchange="this.form.submit();" />
+			  </div>
+			</form>
+
+		</center>
+      <p><strong>Name:</strong> <span th:text="${usern.name}">Name</span></p>
+      <p><strong>Email:</strong> <span th:text="${usern.email}">Email</span></p>
+      <p><strong>Phone:</strong> <span th:text="${usern.phone}">Phone</span></p>
+      <p><strong>City:</strong> <span th:text="${usern.city}">City</span></p>
+      <p><strong>Address:</strong> <span th:text="${usern.address}">Address</span></p>
+      <p><strong>State:</strong> <span th:text="${usern.state}"></span></p>
+      <p><strong>Pin Code:</strong> <span th:text="${usern.pin}"></span></p>
+	  <p><strong>Acount Status:</strong> <span th:text="${usern.isEnable}"></span></p>
+	  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">
+	    Edit Profile
+	  </button>
+
+    </div>
+
+    <!-- Change Password Section -->
+    <div class="profile-info" th:if="${usern != null}">
+      <h3 style="text-align: center;">Change Password</h3>
+      <form th:action="@{/user/changed-pw}" method="post" class="change-password-form">
+        <label for="oldPassword"><strong>Old Password:</strong></label>
+        <input type="password" id="oldPassword" name="currentpw" required>
+
+        <label for="newPassword"><strong>New Password:</strong></label>
+        <input type="password" id="newPassword" name="newpw" required>
+
+        <label for="confirmPassword"><strong>Confirm Password:</strong></label>
+        <input type="password" id="confirmPassword" name="confirmpw" required>
+
+        <button type="submit">Update Password</button>
+      </form>
+    </div>
+
+    <div class="profile-info" th:if="${usern == null}">
+      <p style="text-align: center;">You are not logged in.</p>
+    </div>
+
+  </div>
+  
+  
+  
+  <!-- Modal -->
+  <div id="editProfileModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <form th:action="@{/user/savep}" method="post" th:object="${usern}">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Edit Profile</h4>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" th:field="*{id}" />
+            <label>Name:</label>
+            <input type="text" class="form-control" th:field="*{name}" />
+
+            <label>Phone:</label>
+            <input type="text" class="form-control" th:field="*{phone}" />
+
+            <label>City:</label>
+            <input type="text" class="form-control" th:field="*{city}" />
+
+            <label>Address:</label>
+            <input type="text" class="form-control" th:field="*{address}" />
+
+            <label>State:</label>
+            <input type="text" class="form-control" th:field="*{state}" />
+
+            <label>Pin Code:</label>
+            <input type="text" class="form-control" th:field="*{pin}" />
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success">Save Changes</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+
+  
+</section>
+
+</div>
+
+</body>
+</html>

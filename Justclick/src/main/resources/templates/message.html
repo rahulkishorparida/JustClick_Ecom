@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+	<head>
+		
+	</head>
+	<body>
+		<div th:replace="base::Layout(~{::section})">
+			<section>
+				<h3>
+					[[${msg}]]
+				</h3>
+			</section>
+		</div>
+	</body>
+</html>	

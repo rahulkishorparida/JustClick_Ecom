@@ -1,0 +1,33 @@
+#s1 {
+  background-color: cornflowerblue;
+  color: white;
+  padding: 10px 0;
+}
+
+.tophead a {
+  text-decoration: none !important;
+  color: white;
+}
+
+.logo h3 {
+  margin: 0;
+}
+
+.function {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.function .Login,
+.function .cart,
+.function .admin {
+  display: inline-block;
+}
+
+.Login a:hover,
+.cart a:hover,
+.admin a:hover {
+  color: yellow;
+}

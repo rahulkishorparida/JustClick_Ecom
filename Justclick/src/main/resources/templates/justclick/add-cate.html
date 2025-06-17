@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+<div th:replace="base::Layout(~{::section})">
+
+    <section>
+		<style>
+		    .fr {
+		        border: 1px solid black;
+		        padding: 20px;
+		        margin-top: 20px;
+		        border-radius: 8px;
+		        background-color: #f8f9fa;
+				width: 500px;
+		    }
+		</style>
+        <div class="container fr">
+
+            <form th:action="@{/save-cate}" method="post" enctype="multipart/form-data">
+
+                <div th:if="${successMessage}" class="alert alert-success">
+                    <p th:text="${successMessage}"></p>
+                </div>
+                <div th:if="${errorMessage}" class="alert alert-danger">
+                    <p th:text="${errorMessage}"></p>
+                </div>
+
+                <div class="form-group">
+                    <label>Name:</label>
+                    <input type="text" class="form-control" name="name" placeholder="Category Name" style="width:400px;">
+                </div>
+
+                <div class="form-group">
+                    <label>Photo:</label>
+                    <input type="file" class="form-control" name="file"  style="width:400px;">
+                </div>
+
+                <button type="submit" class="btn btn-success">Submit</button>
+
+            </form>
+
+        </div>
+    </section>
+</div>

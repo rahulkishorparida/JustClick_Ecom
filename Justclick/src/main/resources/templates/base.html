@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+             th:fragment="Layout(content)">
+			 <head>
+			   <meta charset="UTF-8">
+			   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+			   <title>Just Click</title>
+
+			   <script src="script.js"></script>
+			   <link rel="stylesheet" href="base.css">
+			   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+			   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+			   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+			   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+			   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+			 </head>
+			 <body>
+			   <section id="s1">
+				<div class="container-fluid">
+					<div class="tophead">
+					  <div class="row">
+					    <div class="col-sm-6 logo" style="display: flex; align-items: center;">
+						<!-- If user is an admin -->
+						<!-- Admin users -->
+						<th:block th:if="${usern != null and usern.role == 'ROLE_ADMIN'}">
+						  <a th:href="@{/admin/index}">
+						    <h3><i style="color: yellowgreen;">Just <span style="color: yellow">click</span></i></h3>
+						  </a>
+						</th:block>
+						<!-- Non-admin or not logged in -->
+						<th:block th:if="${usern == null or usern.role != 'ROLE_ADMIN'}">
+						  <a th:href="@{/}">
+						    <h3><i style="color: yellowgreen;">Just <span style="color: yellow">click</span></i></h3>
+						  </a>
+						</th:block>
+					   <!-- Somewhere in the tophead row -->
+					   <div class="weather-info text-white" style="margin-left: 20px; display: inline-block;" th:if="${weatherData != null}">
+					       <p>Temperature: <span th:text="${weatherData.main.temp}">N/A</span> °C</p>
+					       <p>Feels Like: <span th:text="${weatherData.main.feels_like}">N/A</span> °C</p>
+						   <p>Feels Like: <span th:text="${weatherData.weather[0].description}">N/A</span> </p>
+					   </div>
+
+					   <h4 style="margin-left: 12px;">
+					           <a href="/products" style="color: white;"><b>Products</b></a>
+					   </h4>
+					   
+					   <div class="admin dropdown" style="margin-left: 5px;">
+					     <h4 class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;">
+					          Categoery
+					       <span class="caret"></span>
+					     </h4>
+					     <ul class="dropdown-menu active">
+					       <li th:each="c :${cates}"><a th:href="@{'/products?category='+ ${c.name}}">[[${c.name}]]</a></li>
+					     </ul>
+					   </div>
+					    </div>
+					    <div class="col-sm-6 function">
+						
+						<th:block th:if="${usern== null}">
+							
+					      <div class="Login">
+					        <h4>
+					          <a href="/signin">Login</a>
+					        </h4>
+					      </div>
+					   <div class="Login">
+					     <h4>
+					       <a href="/register">Register</a>
+					     </h4>
+					   </div>
+					   <div class="cart">
+					     <h4>
+					       <a href="/signin">
+					         <i class="fa-solid fa-cart-shopping"></i> Cart
+					       </a>
+					     </h4>
+					   </div>
+					   </th:block>
+					   <th:block th:if="${usern!=null}">
+						
+					   <div class="admin dropdown" th:if="${usern != null}">
+					     <h4 class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;">
+					       <i class="fa fa-user"></i>
+					       <span th:text="${usern.name}">User</span>
+					       <span class="caret"></span>
+					     </h4>
+					     <ul class="dropdown-menu active">
+					       <th:block th:if="${usern.role == 'ROLE_ADMIN'}">
+					         <a href="/admin/add_admin">My Profile</a>
+					       </th:block>
+					       <li th:unless="${usern.role == 'ROLE_USER'}">
+							<a href="/user/profile">My Profile</a>
+					         <a href="/user/address">My Address</a>
+					         <a href="/user/myorder">Order</a>
+					         <a href="/logout">Logout</a>
+					       </li>
+					     </ul>
+					   </div>
+
+
+
+					  
+						   <div class="cart">
+						     <h4>
+						       <a href="/user/cart">
+						         <i class="fa-solid fa-cart-shopping"></i> Cart [[${countcart}]]
+						       </a>
+						     </h4>
+						   </div>
+						   </th:block>
+					    </div>
+					  </div>
+					</div>
+					
+				</div>
+			   </section>
+			   <section>
+				<div th:insert="${content}"></div>
+			   </section>
+			 </body>
+
+			 </html>

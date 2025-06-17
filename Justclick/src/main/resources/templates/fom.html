@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+	<head>
+		
+	</head>
+	<body>
+		<div th:replace="base::Layout(~{::section})">
+			<h2>Form Entries</h2>
+
+			<table border="1">
+			    <thead>
+			    <tr>
+			        <th>Name</th>
+			        <th>Age</th>
+			        <th>Phone</th>
+			    </tr>
+			    </thead>
+			    <tbody>
+			    <tr th:each="f : ${forms}">
+			        <td th:text="${f.name}"></td>
+			        <td th:text="${f.age}"></td>
+			        <td th:text="${f.phone}"></td>
+			    </tr>
+			    </tbody>
+			</table>
+
+		</div>
+	</body>
+</html>	
